@@ -1,6 +1,7 @@
 import trimesh
 import numpy as np
 import pyqtgraph.opengl as gl
+from typing import Optional
 
 
 COLOR_ITEM = (0.5, 0.5, 0.5, 0.5)
@@ -12,17 +13,21 @@ class Scene:
     def __init__(self) -> None:
         self.view = gl.GLViewWidget()
 
-        self.mesh: trimesh.Trimesh = None
-        self.item: gl.GLMeshItem = None
-        self.com: gl.GLScatterPlotItem = None
-        self.com_projection_line: gl.GLLinePlotItem = None
+        self.mesh: Optional[trimesh.Trimesh] = None
+        self.item: Optional[gl.GLMeshItem] = None
+        self.com: Optional[gl.GLScatterPlotItem] = None
+        self.com_projection_line: Optional[gl.GLLinePlotItem] = None
 
     def get_view(self):
         return self.view
 
     def open_from_file(self, filename):
-        self.mesh = trimesh.load(filename)
+        mesh = trimesh.load(filename)
 
+        if not isinstance(mesh, trimesh.Trimesh):
+            return
+
+        self.mesh = mesh
         vertices = self.mesh.vertices
         faces = self.mesh.faces
 

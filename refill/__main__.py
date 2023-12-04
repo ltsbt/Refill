@@ -20,7 +20,7 @@ class MainWindow(QMainWindow):
     @Slot()
     def open_stl(self):
         filename, _ = QFileDialog.getOpenFileName(
-            None, "Open STL file...", "", "STL Files (*.stl)"
+            self, "Open STL file...", "", "STL Files (*.stl)"
         )
         if filename:
             self.object.open_from_file(filename)
